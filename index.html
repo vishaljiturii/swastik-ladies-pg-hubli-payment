@@ -329,40 +329,32 @@
                     </div>
                 </div>
 
-                <!-- Direct Mobile UPI Pay Options -->
-<div class="max-w-md mx-auto mb-6" id="upiPayButtonContainer">
-    <p class="text-center text-sm text-theme-gold mb-4 font-semibold">Pay Securely via Mobile App</p>
-    
-    <div class="grid grid-cols-2 gap-3 mb-2">
-        <!-- PhonePe -->
-        <a href="#" onclick="return handleUpiPayNow(event, 'phonepe')"
-           class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 bg-[#5f259f] text-white">
-            PhonePe
-        </a>
-        
-        <!-- Paytm -->
-        <a href="#" onclick="return handleUpiPayNow(event, 'paytmmp')"
-           class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 bg-[#00baf2] text-white">
-            Paytm
-        </a>
-        
-        <!-- Google Pay -->
-        <a href="#" onclick="return handleUpiPayNow(event, 'tez')"
-           class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 bg-white text-gray-800">
-            Google Pay
-        </a>
-        
-        <!-- Any Other UPI -->
-        <a href="#" onclick="return handleUpiPayNow(event, 'upi')"
-           class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 bg-gradient-to-r from-theme-gold to-[#edd9ba] text-theme-dark">
-            Other UPI
-        </a>
-    </div>
-    
-    <p id="upiPayDesktopNote" class="text-center text-xs text-gray-400 mt-3 hidden md:block">
-        
-    </p>
-</div>
+                <!-- Direct Mobile UPI Pay Buttons -->
+                <div class="max-w-md mx-auto mb-4" id="upiPayButtonContainer">
+                    <p class="text-center text-sm text-gray-300 mb-3 font-medium">Pay directly via your UPI app:</p>
+                    <div class="grid grid-cols-3 gap-3">
+                        <!-- PhonePe -->
+                        <button type="button" onclick="openUpiApp('phonepe')"
+                            class="flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-2xl font-bold text-sm shadow-xl transition-all duration-200 active:scale-95 bg-[#5f259f] text-white border border-[#7c3cbf] hover:bg-[#7c3cbf]">
+                            <span id="phonepeLabel">PhonePe</span>
+                        </button>
+                        <!-- Google Pay -->
+                        <button type="button" onclick="openUpiApp('gpay')"
+                            class="flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-2xl font-bold text-sm shadow-xl transition-all duration-200 active:scale-95 bg-white text-gray-800 border border-gray-200 hover:bg-gray-50">
+                            <span id="gpayLabel">Google Pay</span>
+                        </button>
+                        <!-- Paytm -->
+                        <button type="button" onclick="openUpiApp('paytm')"
+                            class="flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-2xl font-bold text-sm shadow-xl transition-all duration-200 active:scale-95 bg-[#00b9f5] text-white border border-[#0099cc] hover:bg-[#0099cc]">
+                            <span id="paytmLabel">Paytm</span>
+                        </button>
+                    </div>
+                    <!-- Hidden: keeps amount in sync for JS -->
+                    <span id="upiPayNowLabel" class="hidden">Pay ₹0 via UPI App</span>
+                    <p id="upiPayDesktopNote" class="text-center text-xs text-gray-400 mt-3 hidden">
+                        Open this page on your mobile to pay via UPI app.
+                    </p>
+                </div>
 
                 <!-- Divider -->
                 <div class="max-w-md mx-auto flex items-center gap-3 mb-6">
@@ -375,7 +367,7 @@
                 <div class="max-w-md mx-auto mb-6 bg-white/[0.06] border border-white/15 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-inner">
                     <div class="text-left w-full sm:w-auto">
                         <span class="text-[11px] uppercase tracking-wider text-gray-400 block font-semibold">Official UPI ID</span>
-                        <span id="upiIdDisplay" class="text-lg md:text-xl font-mono font-bold text-white tracking-wide">vijayjiturii@ybl</span>
+                        <span id="upiIdDisplay" class="text-lg md:text-xl font-mono font-bold text-white tracking-wide">7022808054@ybl</span>
                     </div>
                     <button type="button" onclick="copyUpiId()" id="copyUpiBtn" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-theme-gold/20 hover:bg-theme-gold/30 text-theme-gold border border-theme-gold/40 text-xs font-bold transition-all flex items-center justify-center gap-2 active:scale-95">
                         <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
@@ -402,7 +394,7 @@
 
         // Target WhatsApp number (Default set to 919886650724 from UPI ID)
         const RESORT_WHATSAPP_NUMBER = "919886650724";
-        const RESORT_UPI_ID = "vijayjiturii@ybl";
+        const RESORT_UPI_ID = "7022808054@ybl";
 
         // Helper to format date cleanly for display (e.g. 2026-11-02 -> 02 Nov 2026)
         function formatDateDisplay(dateStr) {
@@ -750,42 +742,67 @@
             });
         }
 
-        // Current generated invoice number
-        // UPI Deep Link Pay Now handler
-        function handleUpiPayNow(event) {
+        // UPI App deep link opener
+        let _currentUpiAmt = 0;
+
+        function openUpiApp(app) {
             const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+            const desktopNote = document.getElementById('upiPayDesktopNote');
             if (!isMobile) {
-                // Desktop: show note, don't navigate
-                event.preventDefault();
-                const note = document.getElementById('upiPayDesktopNote');
-                if (note) {
-                    note.classList.remove('hidden');
-                    note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (desktopNote) {
+                    desktopNote.classList.remove('hidden');
+                    desktopNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                return false;
+                return;
             }
-            // Mobile: let the href do the UPI deep link
-            return true;
+            const amt = _currentUpiAmt;
+            const pa = encodeURIComponent(RESORT_UPI_ID);
+            const pn = encodeURIComponent('Swastik Ladies PG');
+            const tn = encodeURIComponent('Room Booking - Swastik Ladies PG');
+            const cu = 'INR';
+
+            let link = '';
+            if (app === 'phonepe') {
+                // PhonePe intent URL for Android; fallback to generic upi://
+                link = `phonepe://pay?pa=${pa}&pn=${pn}&am=${amt}&cu=${cu}&tn=${tn}`;
+            } else if (app === 'gpay') {
+                link = `tez://upi/pay?pa=${pa}&pn=${pn}&am=${amt}&cu=${cu}&tn=${tn}`;
+            } else if (app === 'paytm') {
+                link = `paytmmp://upi/pay?pa=${pa}&pn=${pn}&am=${amt}&cu=${cu}&tn=${tn}`;
+            } else {
+                link = `upi://pay?pa=${pa}&pn=${pn}&am=${amt}&cu=${cu}&tn=${tn}`;
+            }
+
+            // Use window.location for reliable scheme launch on HTTPS
+            window.location.href = link;
+
+            // Fallback: if app didn't open after 1.5s, try generic upi://
+            setTimeout(function() {
+                if (app !== 'generic') {
+                    const fallback = `upi://pay?pa=${pa}&pn=${pn}&am=${amt}&cu=${cu}&tn=${tn}`;
+                    window.location.href = fallback;
+                }
+            }, 1500);
         }
 
-        // Update UPI Pay Now button label & href with current calculated amount
+        // Update UPI Pay Now button labels with current calculated amount
         function updateUpiPayButton(amountINR) {
-            const btn = document.getElementById('upiPayNowBtn');
+            _currentUpiAmt = Math.round(amountINR);
+            const formattedAmt = _currentUpiAmt.toLocaleString('en-IN');
             const label = document.getElementById('upiPayNowLabel');
-            const desktopNote = document.getElementById('upiPayDesktopNote');
-            if (!btn || !label) return;
+            if (label) label.textContent = `Pay \u20B9${formattedAmt} via UPI App`;
 
-            const amt = Math.round(amountINR);
-            const formattedAmt = amt.toLocaleString('en-IN');
-            const name = encodeURIComponent('Swastik Ladies PG');
-            const note = encodeURIComponent('Room Booking Advance - Swastik Ladies PG');
-            const upiLink = `upi://pay?pa=${RESORT_UPI_ID}&pn=${name}&am=${amt}&cu=INR&tn=${note}`;
+            // Update individual button labels with amount
+            const phonepeLabel = document.getElementById('phonepeLabel');
+            const gpayLabel = document.getElementById('gpayLabel');
+            const paytmLabel = document.getElementById('paytmLabel');
+            if (phonepeLabel) phonepeLabel.textContent = `PhonePe`;
+            if (gpayLabel) gpayLabel.textContent = `Google Pay`;
+            if (paytmLabel) paytmLabel.textContent = `Paytm`;
 
-            btn.href = upiLink;
-                        label.textContent = `Pay ₹${formattedAmt} via UPI App`;
-
-            // Show desktop note if on desktop, keep hidden on mobile
+            // Show desktop note if on desktop
             const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+            const desktopNote = document.getElementById('upiPayDesktopNote');
             if (!isMobile && desktopNote) {
                 desktopNote.classList.remove('hidden');
             }
